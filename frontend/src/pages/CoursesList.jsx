@@ -46,9 +46,9 @@ const CoursesList = () => {
       </div>
 
       {loading && (
-        <div className="grid gap-4 md:grid-cols-2">
-          {[...Array(4)].map((_, index) => (
-            <Skeleton key={index} className="h-40" />
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {[...Array(6)].map((_, index) => (
+            <Skeleton key={index} className="h-72" />
           ))}
         </div>
       )}
@@ -61,31 +61,52 @@ const CoursesList = () => {
       )}
 
       {!loading && courses.length > 0 && (
-        <div className="grid gap-4 md:grid-cols-2">
-          {courses.map((course) => (
-            <Card key={course._id} className="flex flex-col justify-between gap-4">
-              <div className="space-y-3">
-                <Badge tone="info">Course</Badge>
-                <h3 className="text-xl font-semibold text-white">{course.title}</h3>
-                <p className="text-sm text-slate-300 line-clamp-3">{course.description}</p>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-lg font-semibold text-emerald-200">${course.price}</span>
-                <div className="flex gap-2">
-                  <Link to={`/courses/${course._id}`}>
-                    <Button variant="secondary" size="sm">
-                      Details
-                    </Button>
-                  </Link>
-                  {token && role === "student" && (
-                    <Button size="sm" onClick={() => onEnroll(course._id)}>
-                      Enroll
-                    </Button>
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {courses.map((course) => {
+            const cover = course.thumbnailUrl || course.imageUrl;
+
+            return (
+              <Card key={course._id} className="flex flex-col gap-4 overflow-hidden p-0">
+                <div className="relative h-40">
+                  {cover ? (
+                    <img
+                      src={cover}
+                      alt={course.title}
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center bg-slate-900 text-sm text-slate-300">
+                      Course cover coming soon
+                    </div>
                   )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/30 to-transparent" />
                 </div>
-              </div>
-            </Card>
-          ))}
+                <div className="space-y-3 px-6 pb-6">
+                  <Badge tone="info">Course</Badge>
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">{course.title}</h3>
+                    <p className="mt-2 text-sm text-slate-300 line-clamp-2">{course.description}</p>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-lg font-semibold text-emerald-200">${course.price}</span>
+                    <div className="flex gap-2">
+                      <Link to={`/courses/${course._id}`}>
+                        <Button variant="secondary" size="sm">
+                          Details
+                        </Button>
+                      </Link>
+                      {token && role === "student" && (
+                        <Button size="sm" onClick={() => onEnroll(course._id)}>
+                          Enroll
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            );
+          })}
         </div>
       )}
 
