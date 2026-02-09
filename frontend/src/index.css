@@ -1,0 +1,56 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --bg-start: #0c111f;
+  --bg-mid: #121a2e;
+  --bg-end: #0b1020;
+  --text-main: #eef3ff;
+  --grid-dot: rgba(255, 255, 255, 0.08);
+  --glass-bg: rgba(14, 19, 32, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.12);
+}
+
+body {
+  font-family: "Space Grotesk", ui-sans-serif, system-ui;
+  background: radial-gradient(circle at top, rgba(66, 218, 255, 0.12), transparent 55%),
+    radial-gradient(circle at 20% 40%, rgba(130, 87, 255, 0.14), transparent 50%),
+    linear-gradient(135deg, var(--bg-start) 0%, var(--bg-mid) 45%, var(--bg-end) 100%);
+  color: var(--text-main);
+  min-height: 100vh;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(var(--grid-dot) 1px, transparent 1px);
+  background-size: 22px 22px;
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(18px);
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, #68f7c1, #7ab8ff, #c68bff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.noise-overlay {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9Ii4wMyIvPjwvc3ZnPg==");
+  opacity: 0.3;
+  pointer-events: none;
+}
