@@ -24,12 +24,30 @@ const CourseDetail = () => {
     return <Skeleton className="h-64" />;
   }
 
+  const heroImage = course.imageUrl || course.thumbnailUrl;
+
   return (
     <div className="space-y-8">
       <Link to="/courses" className="text-sm text-slate-300">
         {"<- Back to courses"}
       </Link>
-      <Card className="space-y-6">
+      <Card className="space-y-6 overflow-hidden p-0">
+        <div className="relative h-64">
+          {heroImage ? (
+            <img
+              src={heroImage}
+              alt={course.title}
+              className="h-full w-full object-cover"
+              loading="lazy"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-slate-900 text-sm text-slate-300">
+              Course hero image coming soon
+            </div>
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/30 to-transparent" />
+        </div>
+        <div className="space-y-6 px-6 pb-6">
         <Badge tone="success">${course.price}</Badge>
         <div>
           <h2 className="text-3xl font-semibold text-white">{course.title}</h2>
@@ -40,6 +58,7 @@ const CourseDetail = () => {
             <Button onClick={() => enroll(course._id)}>Enroll now</Button>
           )}
           <Button variant="secondary">Preview</Button>
+        </div>
         </div>
       </Card>
     </div>
