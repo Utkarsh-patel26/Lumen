@@ -24,7 +24,7 @@ const CourseDetail = () => {
     return <Skeleton className="h-64" />;
   }
 
-  const heroImage = course.imageUrl || course.thumbnailUrl;
+  const heroImage = course.imageUrl || course.thumbnailUrl || "/course-hero-placeholder.svg";
 
   return (
     <div className="space-y-8">
@@ -33,18 +33,12 @@ const CourseDetail = () => {
       </Link>
       <Card className="space-y-6 overflow-hidden p-0">
         <div className="relative h-64">
-          {heroImage ? (
-            <img
-              src={heroImage}
-              alt={course.title}
-              className="h-full w-full object-cover"
-              loading="lazy"
-            />
-          ) : (
-            <div className="flex h-full w-full items-center justify-center bg-slate-900 text-sm text-slate-300">
-              Course hero image coming soon
-            </div>
-          )}
+          <img
+            src={heroImage}
+            alt={course.title}
+            className="h-full w-full object-cover"
+            loading="lazy"
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/30 to-transparent" />
         </div>
         <div className="space-y-6 px-6 pb-6">

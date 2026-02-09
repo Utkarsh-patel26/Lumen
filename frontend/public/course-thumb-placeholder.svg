@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-label="Course thumbnail placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)" />
+  <rect x="32" y="32" width="736" height="536" rx="28" fill="#0b1220" stroke="#1f2a44" stroke-width="2" />
+  <text x="72" y="180" fill="#cbd5f5" font-size="36" font-family="Arial, sans-serif" font-weight="700">Lumen Course</text>
+  <text x="72" y="230" fill="#94a3b8" font-size="20" font-family="Arial, sans-serif">Thumbnail placeholder</text>
+  <g opacity="0.4">
+    <circle cx="640" cy="200" r="90" fill="#38bdf8" />
+    <circle cx="640" cy="200" r="60" fill="#0b1220" />
+  </g>
+</svg>

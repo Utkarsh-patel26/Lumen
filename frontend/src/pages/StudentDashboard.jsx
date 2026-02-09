@@ -86,24 +86,19 @@ const StudentDashboard = () => {
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {safeEnrollments.map((enrollment) => {
               const course = enrollment.courseId;
-              const cover = course?.thumbnailUrl || course?.imageUrl;
+              const cover =
+                course?.thumbnailUrl || course?.imageUrl || "/course-thumb-placeholder.svg";
               const communityUrl = course?.communityUrl || course?.discordUrl;
 
               return (
                 <Card key={enrollment._id} className="flex flex-col gap-4 overflow-hidden p-0">
                   <div className="relative h-40">
-                    {cover ? (
-                      <img
-                        src={cover}
-                        alt={course?.title || "Course cover"}
-                        className="h-full w-full object-cover"
-                        loading="lazy"
-                      />
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center bg-slate-900 text-sm text-slate-300">
-                        Course cover coming soon
-                      </div>
-                    )}
+                    <img
+                      src={cover}
+                      alt={course?.title || "Course cover"}
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/30 to-transparent" />
                     <div className="absolute right-4 top-4">{renderProgress(enrollment.progress)}</div>
                   </div>

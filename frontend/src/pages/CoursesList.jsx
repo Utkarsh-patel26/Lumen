@@ -63,23 +63,18 @@ const CoursesList = () => {
       {!loading && courses.length > 0 && (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {courses.map((course) => {
-            const cover = course.thumbnailUrl || course.imageUrl;
+            const cover =
+              course.thumbnailUrl || course.imageUrl || "/course-thumb-placeholder.svg";
 
             return (
               <Card key={course._id} className="flex flex-col gap-4 overflow-hidden p-0">
                 <div className="relative h-40">
-                  {cover ? (
-                    <img
-                      src={cover}
-                      alt={course.title}
-                      className="h-full w-full object-cover"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <div className="flex h-full w-full items-center justify-center bg-slate-900 text-sm text-slate-300">
-                      Course cover coming soon
-                    </div>
-                  )}
+                  <img
+                    src={cover}
+                    alt={course.title}
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/30 to-transparent" />
                 </div>
                 <div className="space-y-3 px-6 pb-6">
