@@ -5,6 +5,7 @@ import DataTable from "../components/common/DataTable.jsx";
 import Badge from "../components/ui/Badge.jsx";
 import Button from "../components/ui/Button.jsx";
 import Modal from "../components/common/Modal.jsx";
+import { Link } from "react-router-dom";
 import { dashboardApi } from "../services/api/dashboardApi.js";
 import { useCourseStore } from "../store/courseStore.js";
 import { useEnrollmentStore } from "../store/enrollmentStore.js";
@@ -66,9 +67,16 @@ const AdminDashboard = () => {
               key: "actions",
               label: "Actions",
               render: (row) => (
-                <Button variant="danger" size="sm" onClick={() => setCourseToDelete(row)}>
-                  Delete
-                </Button>
+                <div className="flex gap-2">
+                  <Link to={`/admin/courses/${row._id}/edit`}>
+                    <Button variant="secondary" size="sm">
+                      Edit
+                    </Button>
+                  </Link>
+                  <Button variant="danger" size="sm" onClick={() => setCourseToDelete(row)}>
+                    Delete
+                  </Button>
+                </div>
               )
             }
           ]}

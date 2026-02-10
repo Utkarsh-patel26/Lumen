@@ -12,6 +12,8 @@ import StudentDashboard from "./pages/StudentDashboard.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
 import MyCourses from "./pages/MyCourses.jsx";
 import AdminCourseForm from "./pages/AdminCourseForm.jsx";
+import AdminCourses from "./pages/AdminCourses.jsx";
+import LearnCourse from "./pages/LearnCourse.jsx";
 import NotFound from "./pages/NotFound.jsx";
 
 function App() {
@@ -44,6 +46,14 @@ function App() {
           }
         />
         <Route
+          path="/admin/courses"
+          element={
+            <ProtectedRoute role="admin">
+              <AdminCourses />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/my-courses"
           element={
             <ProtectedRoute role="student">
@@ -64,6 +74,14 @@ function App() {
           element={
             <ProtectedRoute role="admin">
               <AdminCourseForm mode="edit" />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/learn/:courseId/:lessonId"
+          element={
+            <ProtectedRoute role="student">
+              <LearnCourse />
             </ProtectedRoute>
           }
         />

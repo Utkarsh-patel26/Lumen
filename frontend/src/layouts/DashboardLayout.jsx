@@ -9,6 +9,7 @@ const DashboardLayout = () => {
   const navItems = role === "admin"
     ? [
         { to: "/dashboard/admin", label: "Overview" },
+        { to: "/admin/courses", label: "Courses" },
         { to: "/admin/courses/new", label: "Create Course" }
       ]
     : [

@@ -69,7 +69,7 @@ const MyCourses = () => {
           {safeEnrollments.map((enrollment) => {
             const course = enrollment.courseId;
             const cover =
-              course?.thumbnailUrl || course?.imageUrl || "/course-thumb-placeholder.svg";
+              course?.thumbnailUrl || course?.heroImageUrl || "/course-thumb-placeholder.svg";
             const communityUrl = course?.communityUrl || course?.discordUrl;
 
             return (

@@ -36,5 +36,14 @@ export const useEnrollmentStore = create((set) => ({
     } finally {
       set({ loading: false });
     }
+  },
+  markLessonComplete: async (courseId, lessonId) => {
+    try {
+      const data = await enrollmentsApi.markLessonComplete(courseId, lessonId);
+      return data;
+    } catch (err) {
+      useUiStore.getState().addToast({ title: "Failed to update progress" });
+      throw err;
+    }
   }
 }));
