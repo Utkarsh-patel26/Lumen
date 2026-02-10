@@ -124,6 +124,22 @@ const AdminCourseForm = ({ mode }) => {
     setOrderingDirty(true);
   };
 
+  const onUpdateLesson = async (sectionId, lessonId, updates) => {
+    const updated = await lessonsApi.update(lessonId, updates);
+    setSections((prev) =>
+      prev.map((section) =>
+        section._id === sectionId
+          ? {
+              ...section,
+              lessons: section.lessons.map((lesson) =>
+                lesson._id === lessonId ? { ...lesson, ...updated } : lesson
+              )
+            }
+          : section
+      )
+    );
+  };
+
   const onUploadLesson = async ({ sectionId, type, title, duration, url }) => {
     const payload = {
       title,
@@ -289,7 +305,10 @@ const AdminCourseForm = ({ mode }) => {
               >
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div className="space-y-2">
-                    <Badge tone="info">Section</Badge>
+                    <div className="flex items-center gap-2">
+                      <Badge tone="info">Section</Badge>
+                      <span className="text-xs text-slate-400">Drag to reorder</span>
+                    </div>
                     <Input
                       label="Title"
                       value={section.title}
@@ -347,19 +366,78 @@ const AdminCourseForm = ({ mode }) => {
                         onDragOver={(event) => event.preventDefault()}
                         onDrop={() => onLessonDrop(section._id, lesson._id)}
                       >
-                        <div>
-                          <p className="text-sm font-semibold text-white">{lesson.title}</p>
-                          <p className="text-xs text-slate-400">
+                        <div className="flex flex-wrap items-center gap-3">
+                          <span className="text-xs text-slate-400">Drag</span>
+                          <Badge tone={lesson.type === "video" ? "info" : "warn"}>
                             {lesson.type === "video" ? "Video" : "File"}
-                          </p>
+                          </Badge>
                         </div>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => onDeleteLesson(section._id, lesson._id)}
-                        >
-                          Remove
-                        </Button>
+                        <div className="flex flex-1 flex-wrap items-end gap-3">
+                          <Input
+                            label="Lesson title"
+                            value={lesson.title}
+                            onChange={(event) =>
+                              setSections((prev) =>
+                                prev.map((entry) =>
+                                  entry._id === section._id
+                                    ? {
+                                        ...entry,
+                                        lessons: entry.lessons.map((item) =>
+                                          item._id === lesson._id
+                                            ? { ...item, title: event.target.value }
+                                            : item
+                                        )
+                                      }
+                                    : entry
+                                )
+                              )
+                            }
+                          />
+                          {lesson.type === "video" && (
+                            <Input
+                              label="Duration (min)"
+                              type="number"
+                              value={lesson.duration || ""}
+                              onChange={(event) =>
+                                setSections((prev) =>
+                                  prev.map((entry) =>
+                                    entry._id === section._id
+                                      ? {
+                                          ...entry,
+                                          lessons: entry.lessons.map((item) =>
+                                            item._id === lesson._id
+                                              ? { ...item, duration: event.target.value }
+                                              : item
+                                          )
+                                        }
+                                      : entry
+                                  )
+                                )
+                              }
+                            />
+                          )}
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                          <Button
+                            variant="secondary"
+                            size="sm"
+                            onClick={() =>
+                              onUpdateLesson(section._id, lesson._id, {
+                                title: lesson.title,
+                                duration: lesson.duration ? Number(lesson.duration) : 0
+                              })
+                            }
+                          >
+                            Save lesson
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => onDeleteLesson(section._id, lesson._id)}
+                          >
+                            Remove
+                          </Button>
+                        </div>
                       </div>
                     ))}
                 </div>
