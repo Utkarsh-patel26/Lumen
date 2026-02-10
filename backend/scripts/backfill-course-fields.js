@@ -28,8 +28,16 @@ const run = async () => {
     { $set: { status: "published", publishedAt: now } }
   );
   await CourseModel.updateMany(
+    { status: { $in: [null, ""] } },
+    { $set: { status: "published", publishedAt: now } }
+  );
+  await CourseModel.updateMany(
     { status: "published", publishedAt: { $in: [null, undefined] } },
     { $set: { publishedAt: now } }
+  );
+  await CourseModel.updateMany(
+    { status: "draft" },
+    { $set: { status: "published", publishedAt: now } }
   );
 
   await EnrollmentModel.updateMany(

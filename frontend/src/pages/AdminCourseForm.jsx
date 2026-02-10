@@ -18,7 +18,8 @@ const AdminCourseForm = ({ mode }) => {
     description: "",
     price: "",
     thumbnailUrl: "",
-    heroImageUrl: ""
+    heroImageUrl: "",
+    status: "published"
   });
   const [loading, setLoading] = useState(false);
   const [sections, setSections] = useState([]);
@@ -41,7 +42,8 @@ const AdminCourseForm = ({ mode }) => {
         description: course.description || "",
         price: course.price || "",
         thumbnailUrl: course.thumbnailUrl || "",
-        heroImageUrl: course.heroImageUrl || ""
+        heroImageUrl: course.heroImageUrl || "",
+        status: course.status || "published"
       });
       const orderedSections = (course.sections || [])
         .slice()
@@ -63,7 +65,8 @@ const AdminCourseForm = ({ mode }) => {
         description: form.description,
         price: Number(form.price),
         thumbnailUrl: form.thumbnailUrl,
-        heroImageUrl: form.heroImageUrl || undefined
+        heroImageUrl: form.heroImageUrl || undefined,
+        status: form.status || "published"
       };
       if (mode === "edit" && id) {
         await updateCourse(id, payload);
@@ -263,6 +266,18 @@ const AdminCourseForm = ({ mode }) => {
             value={form.heroImageUrl}
             onChange={onChange}
           />
+          <label className="block text-sm text-slate-200">
+            <span className="mb-2 block font-medium">Status</span>
+            <select
+              name="status"
+              value={form.status}
+              onChange={onChange}
+              className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400/30"
+            >
+              <option value="published">Published</option>
+              <option value="draft">Draft</option>
+            </select>
+          </label>
           <Button type="submit" size="lg" className="w-full" disabled={loading}>
             {loading ? "Saving..." : "Save course"}
           </Button>

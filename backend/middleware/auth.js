@@ -37,10 +37,9 @@ const optionalAuth = (req, res, next) => {
   }
 
   const user = resolveUserFromToken(token);
-  if (!user) {
-    return res.status(401).json({ success: false, data: null, message: "Invalid token" });
+  if (user) {
+    req.user = user;
   }
-  req.user = user;
 
   return next();
 };

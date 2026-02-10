@@ -27,19 +27,19 @@ const CourseDetail = () => {
     }
   }, [fetchCourse, fetchMyEnrollments, id, role, token]);
 
-  if (loading || !course) {
-    return <Skeleton className="h-64" />;
-  }
-
-  const heroImage = course.heroImageUrl || course.thumbnailUrl || "/course-hero-placeholder.svg";
+  const heroImage = course?.heroImageUrl || course?.thumbnailUrl || "/course-hero-placeholder.svg";
   const sections = useMemo(
-    () => (course.sections || []).slice().sort((a, b) => (a.order || 0) - (b.order || 0)),
+    () => (course?.sections || []).slice().sort((a, b) => (a.order || 0) - (b.order || 0)),
     [course]
   );
-  const enrollment = enrollments.find((entry) => entry.courseId?._id === course._id);
+  const enrollment = enrollments.find((entry) => entry.courseId?._id === course?._id);
   const canLearn = token && role === "student" && enrollment;
   const completedLessons = enrollment?.completedLessons || [];
   const completedLessonIds = new Set(completedLessons.map((id) => String(id)));
+
+  if (loading || !course) {
+    return <Skeleton className="h-64" />;
+  }
 
   useEffect(() => {
     if (!openSectionId && sections.length > 0) {
