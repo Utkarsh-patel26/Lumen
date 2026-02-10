@@ -1,16 +1,16 @@
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import { CourseModel, EnrollmentModel } from "../../db.js";
-import { env } from "../config/env.js";
 
 dotenv.config();
 
 const run = async () => {
-  if (!env.mongoUrl) {
+  const mongoUrl = process.env.MONGO_URL;
+  if (!mongoUrl) {
     throw new Error("MONGO_URL is not configured");
   }
 
-  await mongoose.connect(env.mongoUrl);
+  await mongoose.connect(mongoUrl);
 
   const now = new Date();
 
