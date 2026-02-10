@@ -1,4 +1,9 @@
-import { enroll, listStudentEnrollments, listAdminEnrollments } from "../services/enrollmentService.js";
+import {
+  enroll,
+  listStudentEnrollments,
+  listAdminEnrollments,
+  completeLesson
+} from "../services/enrollmentService.js";
 import { sendSuccess } from "../utils/response.js";
 
 const createEnrollment = async (req, res, next) => {
@@ -28,4 +33,17 @@ const getAdminEnrollments = async (req, res, next) => {
   }
 };
 
-export { createEnrollment, getMyEnrollments, getAdminEnrollments };
+const markLessonComplete = async (req, res, next) => {
+  try {
+    const enrollment = await completeLesson({
+      userId: req.user.id,
+      courseId: req.params.courseId,
+      lessonId: req.params.lessonId
+    });
+    return sendSuccess(res, enrollment, "Progress updated");
+  } catch (err) {
+    return next(err);
+  }
+};
+
+export { createEnrollment, getMyEnrollments, getAdminEnrollments, markLessonComplete };
