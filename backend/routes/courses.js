@@ -20,7 +20,11 @@ const courseSchema = z.object({
     description: z.string().min(10).max(2000),
     price: z.number().min(0),
     thumbnailUrl: z.string().url(),
-    imageUrl: z.string().url().optional()
+    heroImageUrl: z.string().url().optional(),
+    tags: z.array(z.string().min(1).max(40)).optional(),
+    level: z.enum(["beginner", "intermediate", "advanced"]).optional(),
+    duration: z.number().min(0).optional(),
+    status: z.enum(["draft", "published"]).optional()
   })
 });
 
@@ -33,13 +37,21 @@ const updateSchema = z.object({
     description: z.string().min(10).max(2000).optional(),
     price: z.number().min(0).optional(),
     thumbnailUrl: z.string().url().optional(),
-    imageUrl: z.string().url().optional()
+    heroImageUrl: z.string().url().optional(),
+    tags: z.array(z.string().min(1).max(40)).optional(),
+    level: z.enum(["beginner", "intermediate", "advanced"]).optional(),
+    duration: z.number().min(0).optional(),
+    status: z.enum(["draft", "published"]).optional()
   })
 });
 
 coursesApiRouter.get("/courses", optionalAuth, validate(listSchema), list);
 coursesApiRouter.get("/courses/:id", optionalAuth, getById);
 coursesApiRouter.get("/admin/courses", requireAuth, requireRole("admin"), listByCreator);
+coursesApiRouter.post("/courses", requireAuth, requireRole("admin"), validate(courseSchema), create);
+coursesApiRouter.put("/courses/:id", requireAuth, requireRole("admin"), validate(updateSchema), update);
+coursesApiRouter.delete("/courses/:id", requireAuth, requireRole("admin"), remove);
+
 coursesApiRouter.post("/admin/courses", requireAuth, requireRole("admin"), validate(courseSchema), create);
 coursesApiRouter.put("/admin/courses/:id", requireAuth, requireRole("admin"), validate(updateSchema), update);
 coursesApiRouter.delete("/admin/courses/:id", requireAuth, requireRole("admin"), remove);

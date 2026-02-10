@@ -20,15 +20,34 @@ const Admin = new Schema({
   age : Number,
 })
 
+const Lesson = new Schema({
+  title: { type: String, required: true },
+  type: { type: String, enum: ["video", "file"], required: true },
+  videoUrl: String,
+  fileUrl: String,
+  duration: { type: Number, default: 0 },
+  order: { type: Number, default: 0 }
+});
+
+const Section = new Schema({
+  title: { type: String, required: true },
+  order: { type: Number, default: 0 },
+  lessons: { type: [Lesson], default: [] }
+});
+
 const Course = new Schema({
-
-  creatorId : Schema.ObjectId,
-  title : String,
-  description : String,
-  price : Number,
-  imageUrl : String,
-  thumbnailUrl : String,
-
+  creatorId: Schema.ObjectId,
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  price: { type: Number, default: 0 },
+  heroImageUrl: String,
+  thumbnailUrl: String,
+  tags: { type: [String], default: [] },
+  level: { type: String, enum: ["beginner", "intermediate", "advanced"], default: "beginner" },
+  duration: { type: Number, default: 0 },
+  status: { type: String, enum: ["draft", "published"], default: "draft" },
+  publishedAt: { type: Date, default: null },
+  sections: { type: [Section], default: [] }
 })
 
 const Purchase = new Schema({
@@ -44,7 +63,13 @@ const Enrollment = new Schema({
   courseId : {type : Schema.ObjectId, ref : "CourseModel"},
   enrolledAt : {type : Date, default : Date.now},
   progress : {type : Number, default : 0, min : 0, max : 100},
-  completed : {type : Boolean, default : false}
+  completed : {type : Boolean, default : false},
+  completedLessons: { type: [Schema.ObjectId], default: [] },
+  lastLessonId: { type: Schema.ObjectId, default: null },
+  lastPositionSec: { type: Number, default: 0 },
+  lastActiveAt: { type: Date, default: null },
+  streakCount: { type: Number, default: 0 },
+  lastStreakDate: { type: Date, default: null }
 })
 
 User.index({ email : 1 }, { unique : true })

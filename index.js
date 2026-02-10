@@ -4,13 +4,13 @@ import helmet from "helmet";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
 import dotenv from "dotenv";
-import { userRouter } from "./routes/user.js";
-import { adminRouter } from "./routes/admin.js";
-import { coursesRouter } from "./routes/courses.js";
 import { authRouter } from "./backend/routes/auth.js";
 import { coursesApiRouter } from "./backend/routes/courses.js";
 import { enrollmentRouter } from "./backend/routes/enrollments.js";
 import { dashboardRouter } from "./backend/routes/dashboard.js";
+import { sectionsRouter } from "./backend/routes/sections.js";
+import { lessonsRouter } from "./backend/routes/lessons.js";
+import { uploadsRouter } from "./backend/routes/uploads.js";
 import { requestLogger } from "./backend/config/logger.js";
 import { errorHandler } from "./backend/middleware/errorHandler.js";
 import { env } from "./backend/config/env.js";
@@ -30,16 +30,13 @@ app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 300 }));
 app.use(requestLogger);
 
 
-app.use("/user",userRouter)
-
-app.use("/admin",adminRouter)
-
-app.use("/",coursesRouter)
-
 app.use("/", authRouter)
 app.use("/", coursesApiRouter)
 app.use("/", enrollmentRouter)
 app.use("/", dashboardRouter)
+app.use("/", sectionsRouter)
+app.use("/", lessonsRouter)
+app.use("/", uploadsRouter)
 
 
 app.get("/",(req,res) => {

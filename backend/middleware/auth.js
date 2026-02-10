@@ -1,8 +1,5 @@
 import jwt from "jsonwebtoken";
 import { env } from "../config/env.js";
-import { JWT_SECRET_ADMIN } from "../../middlewares/adminMiddleware.js";
-import { JWT_SECRET_USER } from "../../middlewares/userMiddleware.js";
-import { JWT_SECRET } from "../../middlewares/middleware.js";
 
 const parseToken = (authHeader) => {
   if (!authHeader) return null;
@@ -10,25 +7,12 @@ const parseToken = (authHeader) => {
   return authHeader;
 };
 
-const tryVerify = (token, secret, role) => {
-  try {
-    const decoded = jwt.verify(token, secret);
-    return { id: decoded.id, role };
-  } catch (err) {
-    return null;
-  }
-};
-
 const resolveUserFromToken = (token) => {
   try {
     const decoded = jwt.verify(token, env.jwtSecret);
     return { id: decoded.id, role: decoded.role };
   } catch (err) {
-    return (
-      tryVerify(token, JWT_SECRET_ADMIN, "admin") ||
-      tryVerify(token, JWT_SECRET_USER, "student") ||
-      tryVerify(token, JWT_SECRET, "student")
-    );
+    return null;
   }
 };
 

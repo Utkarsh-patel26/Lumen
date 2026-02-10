@@ -16,7 +16,11 @@ const create = async (req, res, next) => {
       description: req.body.description,
       price: req.body.price,
       thumbnailUrl: req.body.thumbnailUrl,
-      imageUrl: req.body.imageUrl
+      heroImageUrl: req.body.heroImageUrl,
+      tags: req.body.tags,
+      level: req.body.level,
+      duration: req.body.duration,
+      status: req.body.status
     });
     return sendSuccess(res, course, "Course created", 201);
   } catch (err) {
