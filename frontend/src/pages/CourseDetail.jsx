@@ -37,15 +37,15 @@ const CourseDetail = () => {
   const completedLessons = enrollment?.completedLessons || [];
   const completedLessonIds = new Set(completedLessons.map((id) => String(id)));
 
-  if (loading || !course) {
-    return <Skeleton className="h-64" />;
-  }
-
   useEffect(() => {
     if (!openSectionId && sections.length > 0) {
       setOpenSectionId(sections[0]._id);
     }
   }, [openSectionId, sections]);
+
+  if (loading || !course) {
+    return <Skeleton className="h-64" />;
+  }
 
   return (
     <div className="space-y-8">
